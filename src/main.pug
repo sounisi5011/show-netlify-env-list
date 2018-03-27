@@ -138,6 +138,23 @@
   };
 
 -
+  const ciEnvKeys = [
+    'REPOSITORY_URL',
+    'BRANCH',
+    'PULL_REQUEST',
+    'HEAD',
+    'COMMIT_REF',
+    'CONTEXT',
+    'REVIEW_ID',
+    'WEBHOOK_TITLE',
+    'WEBHOOK_URL',
+    'WEBHOOK_BODY',
+    'URL',
+    'DEPLOY_URL',
+    'DEPLOY_PRIME_URL',
+  ];
+
+-
   const generateTime = new Date;
   const titleText = `Show process.env value list ${process.env.npm_package_version}`;
 
@@ -192,6 +209,19 @@ html
       }
   body
     h1= titleText
+
+    h2
+      a(href="https://www.netlify.com/docs/continuous-deployment/#build-environment-variables")
+        | Build Environment variables
+
+    - const ciEnvKeyMaxLen = ciEnvKeys.reduce((l, s) => Math.max(l, s.length), 0);
+
+    textarea(readonly rows="10")
+      each key in ciEnvKeys
+        if key in process.env
+          | #{(key + ':').padEnd(ciEnvKeyMaxLen + 2)}
+      |
+      |
 
     h2 value table
     table
