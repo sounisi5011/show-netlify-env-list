@@ -138,6 +138,7 @@
   };
 
 -
+  // https://www.netlify.com/docs/continuous-deployment/#build-environment-variables
   const ciEnvKeys = [
     'REPOSITORY_URL',
     'BRANCH',
@@ -156,7 +157,14 @@
 
 -
   const generateTime = new Date;
-  const titleText = `Show process.env value list ${process.env.npm_package_version}`;
+  const titleText = (
+    'Show process.env value list' +
+    (
+      process.env.npm_package_version ?
+      ' ' + process.env.npm_package_version :
+      ''
+    )
+  );
 
 //- ----- ----- ----- -///
 
@@ -214,14 +222,19 @@ html
       a(href="https://www.netlify.com/docs/continuous-deployment/#build-environment-variables")
         | Build Environment variables
 
-    - const ciEnvKeyMaxLen = ciEnvKeys.reduce((l, s) => Math.max(l, s.length), 0);
-
     textarea(readonly rows="10")
-      each key in ciEnvKeys
+      -
+        const list = ciEnvKeys
+          .filter(key => key in process.env);
+        const keyMaxLen = list
+          .reduce((l, s) => Math.max(l, s.length), 0);
+
+      each key in list
         if key in process.env
-          | #{(key + ':').padEnd(ciEnvKeyMaxLen + 2)}
-      |
-      |
+          - const keyStr = (key + ':').padEnd(keyMaxLen + 2);
+          - const value = process.env[key];
+          | #{keyStr}#{value}
+          |
 
     h2 value table
     table
