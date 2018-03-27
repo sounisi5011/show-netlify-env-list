@@ -1,0 +1,24 @@
+{
+  "name": "show-netlify-env-list",
+  "version": "1.0.0",
+  "repository": "https://github.com/sounisi5011/show-netlify-env-list.git",
+  "author": "sounisi5011",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "clean-dest": "npm run create-dest && npm run remove-dest",
+    "create-dest": "mkdirp dest",
+    "remove-dest": "del dest/*",
+    "prebuild": "npm run clean-dest",
+    "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
+    "build": "npm run build:html"
+  },
+  "engines" : {
+    "node" : ">=8.10.0"
+  },
+  "dependencies": {
+    "del-cli": "^1.1.0",
+    "mkdirp": "^0.5.1",
+    "pug-cli": "^1.0.0-alpha6"
+  }
+}
