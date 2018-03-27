@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width,initial-scale=1")
+    meta(name="format-detection" content="telephone=no,email=no,address=no")
+    meta(name="robots" content="noindex, nofollow, noarchive")
+    title Show process.env value list
+    style.
+      table {
+        width: 100%;
+      }
+      th {
+        width: 10px;
+        white-space: nowrap;
+      }
+      textarea {
+        width: 100%;
+      }
+  body
+    table
+      - for (const [key, value] of Object.entries(process.env)) {
+      tr
+        th= key
+        td
+          textarea(placeholder="Zero length string" readonly)= value
+      - }
